@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#task-img:hover {
+    cursor: pointer;
+}
+
+.img-wrapper {
+    position: relative;
+}
