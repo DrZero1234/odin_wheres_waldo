@@ -8,4 +8,5 @@
 
 .img-wrapper {
     position: relative;
+    z-index: 0;
 }
