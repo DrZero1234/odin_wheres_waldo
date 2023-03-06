@@ -2,11 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-#task-img:hover {
-    cursor: pointer;
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 .img-wrapper {
     position: relative;
-    z-index: 0;
+    height: 100%;
+    width: 100%;
+    
 }
+

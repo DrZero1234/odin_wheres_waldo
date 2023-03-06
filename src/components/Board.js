@@ -11,27 +11,37 @@ import testImage from "../img/test.jpg"
 export const Board = () => {
     const imageRef = useRef();
 
+    let test_X;
+    let test_Y;
+
     const [imageMousePos, setimageMousePos] = useState({});
     const [imageClicked, setimageClicked] = useState(false);
 
     const handleMouseMove = (event) => {
-        const {offsetLeft, offsetTop} = imageRef.current;
+        var bounds = event.target.getBoundingClientRect();
+        const {clientX,clientY} = event
 
-        const imageX = event.clientX - offsetLeft;
-        const imageY = event.clientY - offsetTop;
+        test_Y = document.getElementById("test-Y")
+        test_X = document.getElementById("test-X");
+
+        const imageX = clientX - bounds.left;
+        const imageY = clientY - bounds.top;
 
 
         
         if (imageClicked === false) {
-            console.log(offsetLeft);
-            console.log(offsetTop)
+            console.log(imageMousePos.x);
+            console.log(imageMousePos.y)
+            test_X.textContent = imageMousePos.x;
+            test_Y.textContent = imageMousePos.y
             setimageMousePos({x: imageX, y: imageY})
         }
         
     }
 
     const handleMouseClick = (event) => {
-        const {offsetLeft, offsetTop} = imageRef.current;
+        var bounds = event.target.getBoundingClientRect();
+        const {clientX,clientY} = event
 
         event.preventDefault();
 
@@ -39,21 +49,25 @@ export const Board = () => {
         console.log(imageMousePos.y);
         setimageClicked(!imageClicked)
         if (imageClicked) {
-            setimageMousePos({x: event.clientX - offsetLeft,y: event.clientY - offsetTop})
+            setimageMousePos({x: clientX - bounds.left,y: clientY - bounds.top})
         }
 
     }
 
     if (!imageClicked) {
         return(
-                <div className="img-wrapper" ref = {imageRef} >
-                    <img src={testImage}  onMouseMove = {handleMouseMove} onClick = {handleMouseClick}></img>
+                <div className="img-wrapper" ref = {imageRef} onMouseMove = {handleMouseMove} onClick = {handleMouseClick} >
+                    <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.X}</h2>
+                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.Y}</h2>
+                    <img src={testImage}  ></img>
                 </div>       
         )
     } else {
         return(
-            <div className="img-wrapper" ref = {imageRef}  >
-                <img src={testImage}  onMouseMove = {handleMouseMove} onClick = {handleMouseClick}></img>
+            <div className="img-wrapper"  onMouseMove = {handleMouseMove} onClick = {handleMouseClick}  ref = {imageRef}>
+                <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.X}</h2>
+                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.Y}</h2>
+                <img src={testImage}  ></img>
                 <TargetBox x={imageMousePos.x} y={imageMousePos.y} />
             </div>
         )
