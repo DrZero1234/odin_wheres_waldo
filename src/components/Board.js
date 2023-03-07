@@ -57,16 +57,16 @@ export const Board = () => {
     if (!imageClicked) {
         return(
                 <div className="img-wrapper" ref = {imageRef} onMouseMove = {handleMouseMove} onClick = {handleMouseClick} >
-                    <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.X}</h2>
-                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.Y}</h2>
+                    <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.x}</h2>
+                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.y}</h2>
                     <img src={testImage}  ></img>
                 </div>       
         )
     } else {
         return(
             <div className="img-wrapper"  onMouseMove = {handleMouseMove} onClick = {handleMouseClick}  ref = {imageRef}>
-                <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.X}</h2>
-                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.Y}</h2>
+                    <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.x}</h2>
+                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.y}</h2>
                 <img src={testImage}  ></img>
                 <TargetBox x={imageMousePos.x} y={imageMousePos.y} />
             </div>
