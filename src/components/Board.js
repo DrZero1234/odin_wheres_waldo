@@ -4,12 +4,23 @@ import { useEffect, useState } from "react";
 import { TargetBox } from "./TargetBox";
 import { useRef } from "react";
 import testImage from "../img/test.jpg"
+import example from "../img/example.png"
 
 
 
 
-export const Board = () => {
+export const Board = ({characters}) => {
     const imageRef = useRef();
+
+    const style = {
+        img_wrapper: {
+            backgroundImage: `url(${example})`,
+            height: "100vh",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+        }
+    }
 
     let test_X;
     let test_Y;
@@ -56,19 +67,17 @@ export const Board = () => {
 
     if (!imageClicked) {
         return(
-                <div className="img-wrapper" ref = {imageRef} onMouseMove = {handleMouseMove} onClick = {handleMouseClick} >
+                <div className="img-wrapper" ref = {imageRef} onMouseMove = {handleMouseMove} onClick = {handleMouseClick} style = {style.img_wrapper}>
                     <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.x}</h2>
                     <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.y}</h2>
-                    <img src={testImage}  ></img>
                 </div>       
         )
     } else {
         return(
-            <div className="img-wrapper"  onMouseMove = {handleMouseMove} onClick = {handleMouseClick}  ref = {imageRef}>
-                    <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.x}</h2>
-                    <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.y}</h2>
-                <img src={testImage}  ></img>
-                <TargetBox x={imageMousePos.x} y={imageMousePos.y} />
+            <div className="img-wrapper"  onMouseMove = {handleMouseMove} onClick = {handleMouseClick}  ref = {imageRef} style = {style.img_wrapper}>
+                <h2 id="test-X" style={{position: "sticky", color: "red",top: "20px"}}>X: {imageMousePos.x}</h2>
+                <h2 id="test-Y" style={{position: "sticky", color: "red",top: "50px"}}>Y: {imageMousePos.y}</h2>
+                <TargetBox x={imageMousePos.x} y={imageMousePos.y} chars = {characters} />
             </div>
         )
     }
