@@ -1,56 +1,90 @@
+import Example from "./img/example.png"
 
-import { useRef } from 'react';
-import { firestore } from './components/utils/firebase';
-import handleSubmit from './components/handleSubmit';
-import { Navbar } from './components/Navbar';
-import React from 'react';
-import { Board } from './components/Board';
-import { useState } from 'react';
-import { CharacterList } from './components/CharacterList.js';
-import { TargetBox } from './components/TargetBox';
+// The Project
 
-function App() {
-  
-  const dataRef = useRef();
-  // State templates
+/* About the App
 
-  /* character = {
-    name: string,
-    img_url: url,
-    x_cor: int,
-    y_cor: int,
-  }
-  */
+A Wheres Waldo Project built with HTML, CSS, JS-React,Firebase.
+After the first click a timer should start which will be used for the 
+final score.
+Clicking on the picture should place a marker with a list of characters.
+If The selected character is on the marker´s spot the  program should
+set that character as found.
+The character coordinates data will be stored on the Firebase backend,
+along with the user scoreboard.
+If the user finds all the characters a popup window should appear where
+the user type their custom name, this name will be user on the scoreboard.
 
-  /*
-  characters = []
-  */
+*/
 
-  /* 
-  found_characters = []
-  */
+/* MUST HAVES
 
-  const [Characters, setCharacters] = useState(["First Character", "Character2", "Character3"]);
+- Image which on click will have a makrer on it
+- Character coordinates
+- Highscore Timer
+- Site styling
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    handleSubmit(dataRef.current.value);
-    dataRef.current.value = "";
-  }
-  return (
-    <div className="App">
-      <Navbar />
-      {/* 
-      <form onSubmit={submitHandler}>
-        <input type="text" className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm' ref={dataRef} />
-        <button type='submit' className='inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>Save</button>
-      </form>
-      */}
-      <Board characters = {Characters}/>
+*/
 
+/* NICE TO HAVES
 
+- Randomizing the target character OR multiple levels.
+
+*/
+
+function Characters({character_list}) {
+  return(
+    <div className="flex items-center justify-center m-2 space-x-4">
+      {character_list.map((character) => (
+        <div>{character}</div>
+      ))}
     </div>
-  );
+  )
 }
 
-export default App;
+function Image() {
+  return(
+  <div class="bg-indigo-300 ...">
+    <img class="object-fill h-100 w-100" src={Example} />
+  </div>
+  )
+}
+
+function Navbar() {
+  return(
+    <>
+        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+      <div className="container flex flex-wrap items-center justify-between mx-auto">
+            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Wheres Waldo</span>
+          <span className="self-center text-l font-semibold whitespace-nowrap dark:text-white">00:00:00</span>
+      </div>
+    </nav>
+    </>
+  )
+}
+
+function WheresWaldo() {
+  const characters = ["character1", "character2", "character3"]
+
+  return(
+    <div className="flex-col">
+      <div className="basis - 1/4">
+        <Navbar />
+      </div>
+
+      <div className="basis-1/4">
+        <Characters character_list={characters} />
+      </div>
+
+      <div className="basis-1/2">
+        <Image />
+      </div>
+    </div>
+  )
+}
+
+export default function App() {
+  return(
+    <WheresWaldo />
+  )
+}
