@@ -1,4 +1,5 @@
 import Example from "./img/example.png"
+import Lisa from "./img/lisa.webp"
 
 // The Project
 
@@ -36,16 +37,31 @@ function Characters({character_list}) {
   return(
     <div className="flex items-center justify-center m-2 space-x-4">
       {character_list.map((character) => (
-        <div>{character}</div>
+        <figure class="max-w-lg">
+          <img class="h-xs w-xs rounded-lg" src={Lisa} alt="image description" />
+          <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Character Name</figcaption>
+        </figure>
       ))}
     </div>
   )
 }
 
-function Image() {
+function TargetBox({x,y}) {
   return(
-  <div class="bg-indigo-300 ...">
-    <img class="object-fill h-100 w-100" src={Example} />
+  <div className={`absolute  h-12 w-12 z-10 border-solid border-2 border-red-600`} style  ={{left: x + "px",top: y + "px" }}>
+
+  </div>
+  )
+}
+
+function Image() {
+  const x = 225;
+  const y = 225;
+
+  return(
+  <div class="relative">
+    <img class="z-0 object-fill h-100 w-100" src={Example} />
+    <TargetBox x={x} y={y} />
   </div>
   )
 }
