@@ -1,8 +1,11 @@
 import Navbar from "./Navbar";
 import Lisa from "../img/lisa.webp"
+import Hornet from "../img/hornet.jpeg"
+import Sans from "../img/sans.png"
 import Characters from "./Characters";
 import GameImage from "./GameImage";
 import TargetBox from "./TargetBox"
+
 import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable"
 import { useState } from "react";
@@ -10,8 +13,8 @@ import { useState } from "react";
 
 
 function WheresWaldo({x,y,setx,sety}) {
-   const [characters, setCharacters] = useState([{name: "character1", img_src: Lisa},{name: "character2", img_src: Lisa}, {name: "character3", img_src: Lisa}])
-   const [clicked, setclicked] = useState(true);
+   const [characters, setCharacters] = useState([{name: "Lisa", img_src: Lisa, found: false},{name: "Hornet", img_src: Hornet, found: false}, {name: "Sans", img_src: Sans, found: false}])
+   const [clicked, setclicked] = useState(false);
    const [firstClick, setfirstClick] = useState(false);
 
   return(
@@ -26,8 +29,8 @@ function WheresWaldo({x,y,setx,sety}) {
 
       <div className="basis-full">
         <div className="relative">
-          <GameImage />
-          {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters}/>}
+          <GameImage setx={setx} sety = {sety} setclicked = {setclicked} clicked = {clicked}/>
+          {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters} setclicked = {setclicked} clicked = {clicked}/>}
         </div>
       </div>
     </div>

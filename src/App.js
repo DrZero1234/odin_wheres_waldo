@@ -32,6 +32,7 @@ the user type their custom name, this name will be user on the scoreboard.
 /* NICE TO HAVES
 
 - Randomizing the target character OR multiple levels.
+- Adding Redux for State management
 
 */
 
@@ -55,6 +56,7 @@ the user type their custom name, this name will be user on the scoreboard.
 export default function App() {
    const [x, setx] = useState(0);
    const [y, sety] = useState(0);
+
 
   return(
     <WheresWaldo x={x} y={y} sety = {sety} setx = {setx}/>
