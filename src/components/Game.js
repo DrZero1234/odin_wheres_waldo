@@ -8,7 +8,9 @@ import TargetBox from "./TargetBox"
 
 import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { firestore } from "./utils/firebase";
+import { query, collection, addDoc, getDocs,getDoc,where } from "firebase/firestore";
 
 
 
@@ -16,6 +18,17 @@ function WheresWaldo({x,y,setx,sety}) {
    const [characters, setCharacters] = useState([{name: "Lisa", img_src: Lisa, found: false},{name: "Hornet", img_src: Hornet, found: false}, {name: "Sans", img_src: Sans, found: false}])
    const [clicked, setclicked] = useState(false);
    const [firstClick, setfirstClick] = useState(false);
+
+  const getCharacterData = async(name) => {
+    const querySnapshot = await getDocs(collection(firestore,"characters"), where("name" === name));
+    querySnapshot.forEach((character) => {
+      console.log(`${character.id} => ${character.data().name}`)
+      console.log(`X: ${character.data().coordinates[0]}`);
+      console.log(`Y: ${character.data().coordinates[1]}`);
+    })
+  }
+
+   useEffect(() => getCharacterData)
 
   return(
     <div className="flex flex-col">

@@ -3,41 +3,63 @@ import { useEffect, useState, useLayoutEffect, useRef } from "react";
 
 export default function GameImage({sety,setx, setclicked, clicked}) {
 
-  const ref = useRef(null);
+  const imageRef = useRef();
+  const [width, setwidth] = useState(1);
+  const [height, setheight] = useState(1);
 
-  const [numbers, setNumbers] = useState([]);
+  let movement_timer = null;
 
-  const [width, setwidth] = useState(0);
-  const [height, setHeight] = useState(0);
+  const RESET_TIMEOUT = 100;
 
-  useLayoutEffect(() => {
-    setwidth(ref.current.clientWidth);
-    setHeight(ref.current.clientHeight)
-  }, [numbers])
+  const test_sizes = () => {
+    if (imageRef.current) {
+      setheight(Math.round(imageRef.current.getBoundingClientRect().height));
+      setwidth(Math.round(imageRef.current.getBoundingClientRect().width));
 
-  useEffect(() => {
-    function handleWindowResize() {
+      console.log(`Width: ${width}`);
+      console.log(`Height: ${height}`)
+    }
+  }
 
-      setwidth(ref.current.clientWidth);
-      setHeight(ref.current.clientHeight);
 
-      console.log(ref.current.clientWidth);
-      console.log(ref.current.clientHeight)
+
+
+
+  function handleWindowResize() {
+      setheight(Math.round(imageRef.current.getBoundingClientRect().height));
+      setwidth(Math.round(imageRef.current.getBoundingClientRect().width));
     }
 
+  useLayoutEffect(() => {
+    test_sizes();
+  }, []);
+
+  window.addEventListener("resize", () => {
+    clearInterval(movement_timer);
+    movement_timer = setTimeout(test_sizes, RESET_TIMEOUT)
+  });
+
+
+  /*
+  useEffect(() => {
     window.addEventListener("resize", handleWindowResize)
+    handleWindowResize();
 
     return() => {
       window.removeEventListener("resize", handleWindowResize)
     }
   }, [])
 
+  */
+
   const handleMouseClicked = (event) => {
     const bounds = event.target.getBoundingClientRect();
+    let xPercent;
+    let yPercent;
     console.log("lel")
 
-    const imgX = event.clientX - bounds.left;
-    const imgY = event.clientY - bounds.top;
+    const imgX = Math.round(event.clientX - bounds.left);
+    const imgY = Math.round(event.clientY - bounds.top);
 
     if (!clicked) {
       setx(imgX);
@@ -49,12 +71,20 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
 
     setclicked(!clicked)
 
-    console.log(Math.floor((imgX / width) * 100));
-    console.log(Math.floor((imgY / height) * 100))
+    xPercent = Math.round((imgX / width) * 100)
+    yPercent = Math.round((imgY / height) * 100)
+
+    console.log(width);
+    console.log(height)
+
+    console.log(xPercent);
+    console.log("y(infinity): " + yPercent)
     
   }
 
   return(
-      <img class="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} ref = {ref}/>
+    <div ref = {imageRef}>
+      <img class="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} />
+    </div>
   )
 }

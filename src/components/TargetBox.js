@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import CharacterList from "./CharacterList";
 
 
 
@@ -28,20 +29,7 @@ export default function TargetBox({x,y,setx,sety,characters,setclicked, clicked}
   return(
   <div className="z-10 flex flex-row gap-2  absolute" style  ={{left:x -20 + "px",top: y -20 + "px" }}>
     <div className={`h-40px w-52px outline outline-2 outline-red-600`} onClick = {handleMouseClicked}/>
-    <ul class="flex flex-col divide-y w-full">
-      {characters.map(character => (
-    <li class="flex flex-row">
-      <div class="select-none cursor-pointer hover:bg-gray-100 hover:text-slate-900 dark:hover:bg-gray-600 dark:hover:text-white bg-slate-900 text-slate-200 flex flex-1 items-center p-4 block">
-        <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
-            <img alt="profil" src={character.img_src} class="mx-auto object-cover h-10 w-10" />
-        </div>
-        <div class="flex-1 pl-1">
-          <div class="font-medium dark:text-white">{character.name}</div>
-        </div>
-      </div>
-    </li>
-      ))}
-      </ul>
+      <CharacterList characters = {characters} />
     </div>
   )
 }
