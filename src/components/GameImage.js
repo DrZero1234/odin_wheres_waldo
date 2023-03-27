@@ -3,41 +3,26 @@ import { useEffect, useState, useLayoutEffect, useRef } from "react";
 
 export default function GameImage({sety,setx, setclicked, clicked}) {
 
+  const xPercentDoc = document.getElementById("xpercent");
+  const yPercentDoc = document.getElementById("ypercent")
+
   const imageRef = useRef();
-  const [width, setwidth] = useState(1);
-  const [height, setheight] = useState(1);
+  const [width, setwidth] = useState(0);
+  const [height, setheight] = useState(0);
 
-  let movement_timer = null;
+  const [targetXPercent, settargetXPercent] = useState(0);
+  const [targetYPercent,settargetYPercent] = useState(0);
 
-  const RESET_TIMEOUT = 100;
 
-  const test_sizes = () => {
+  useEffect(() => {
     if (imageRef.current) {
-      setheight(Math.round(imageRef.current.getBoundingClientRect().height));
-      setwidth(Math.round(imageRef.current.getBoundingClientRect().width));
-
-      console.log(`Width: ${width}`);
-      console.log(`Height: ${height}`)
+      setheight(imageRef.current.offsetHeight);
+      setwidth(imageRef.current.offsetWidth);
     }
-  }
+  })
 
 
 
-
-
-  function handleWindowResize() {
-      setheight(Math.round(imageRef.current.getBoundingClientRect().height));
-      setwidth(Math.round(imageRef.current.getBoundingClientRect().width));
-    }
-
-  useLayoutEffect(() => {
-    test_sizes();
-  }, []);
-
-  window.addEventListener("resize", () => {
-    clearInterval(movement_timer);
-    movement_timer = setTimeout(test_sizes, RESET_TIMEOUT)
-  });
 
 
   /*
@@ -74,6 +59,9 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
     xPercent = Math.round((imgX / width) * 100)
     yPercent = Math.round((imgY / height) * 100)
 
+    settargetXPercent(xPercent);
+    settargetYPercent(yPercent);
+
     console.log(width);
     console.log(height)
 
@@ -84,6 +72,8 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
 
   return(
     <div ref = {imageRef}>
+      <p id="xpercent">X: {targetXPercent}</p>
+      <p id="ypercent">Y: {targetYPercent}</p>
       <img class="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} />
     </div>
   )
