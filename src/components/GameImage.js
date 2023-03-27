@@ -41,7 +41,6 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
     const bounds = event.target.getBoundingClientRect();
     let xPercent;
     let yPercent;
-    console.log("lel")
 
     const imgX = Math.round(event.clientX - bounds.left);
     const imgY = Math.round(event.clientY - bounds.top);
@@ -51,9 +50,6 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
       sety(imgY);
     }
 
-    console.log(`x: ${imgX}`);
-    console.log(`y: ${imgY}`)
-
     setclicked(!clicked)
 
     xPercent = Math.round((imgX / width) * 100)
@@ -61,12 +57,6 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
 
     settargetXPercent(xPercent);
     settargetYPercent(yPercent);
-
-    console.log(width);
-    console.log(height)
-
-    console.log(xPercent);
-    console.log("y(infinity): " + yPercent)
     
   }
 

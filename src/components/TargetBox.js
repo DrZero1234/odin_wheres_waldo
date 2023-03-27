@@ -11,15 +11,12 @@ export default function TargetBox({x,y,setx,sety,characters,setclicked, clicked}
 
   const handleMouseClicked = (event) => {
     const bounds = event.target.getBoundingClientRect();
-    console.log("lel")
 
     const imgX = event.clientX - bounds.left;
     const imgY = event.clientY - bounds.top;
 
-    console.log(clicked)
     setx(imgX);
     sety(imgY);
-    setclicked(!clicked)
 
     
   }

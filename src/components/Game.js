@@ -10,7 +10,7 @@ import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable"
 import { useEffect, useState } from "react";
 import { firestore } from "./utils/firebase";
-import { query, collection, addDoc, getDocs,getDoc,where } from "firebase/firestore";
+import { query, collection, addDoc, getDocs,getDoc,where, QuerySnapshot } from "firebase/firestore";
 
 
 
@@ -19,16 +19,22 @@ function WheresWaldo({x,y,setx,sety}) {
    const [clicked, setclicked] = useState(false);
    const [firstClick, setfirstClick] = useState(false);
 
-  const getCharacterData = async(name) => {
-    const querySnapshot = await getDocs(collection(firestore,"characters"), where("name" === name));
-    querySnapshot.forEach((character) => {
-      console.log(`${character.id} => ${character.data().name}`)
-      console.log(`X: ${character.data().coordinates[0]}`);
-      console.log(`Y: ${character.data().coordinates[1]}`);
-    })
-  }
+  const getCharacterData = async() => {
+    let charData
 
-   useEffect(() => getCharacterData)
+    const q = query(collection(firestore,"characters"), where("name", "==" ,"Hornet"));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length > 0) {
+      charData = querySnapshot.docs[0].data()
+
+      console.log(`Name: ${charData.name}`)
+      console.log(`X: ${charData.coordinates[0]}`)
+      console.log(`Y: ${charData.coordinates[1]}`)
+    }
+    
+  }
+  
+  useEffect(() => {getCharacterData()}, [])
 
   return(
     <div className="flex flex-col">
