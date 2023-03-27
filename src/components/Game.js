@@ -10,7 +10,7 @@ import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable"
 import { useEffect, useState } from "react";
 import { firestore } from "./utils/firebase";
-import { query, collection, addDoc, getDocs,getDoc,where } from "firebase/firestore";
+import { query, collection, addDoc, getDocs,getDoc,where,limit,doc, setDoc, QuerySnapshot } from "firebase/firestore";
 
 
 
@@ -20,15 +20,18 @@ function WheresWaldo({x,y,setx,sety}) {
    const [firstClick, setfirstClick] = useState(false);
 
   const getCharacterData = async(name) => {
-    const querySnapshot = await getDocs(collection(firestore,"characters"), where("name" === name));
-    querySnapshot.forEach((character) => {
-      console.log(`${character.id} => ${character.data().name}`)
-      console.log(`X: ${character.data().coordinates[0]}`);
-      console.log(`Y: ${character.data().coordinates[1]}`);
-    })
+    const q = query(collection(firestore, "characters"), where("name", "==", name ))
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.docs.length > 0) {
+      console.log(querySnapshot.docs[0].data())
+    }
+
+    // get The name of the first query element name = querySnapshot.docs[0].data().name
+    
   }
 
-   useEffect(() => getCharacterData)
+   useEffect(() => getCharacterData("Lisa"), [])
 
   return(
     <div className="flex flex-col">
