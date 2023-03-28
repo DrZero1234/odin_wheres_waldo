@@ -1,7 +1,7 @@
 import Example from "../img/example.png"
 import { useEffect, useState, useLayoutEffect, useRef } from "react";
 
-export default function GameImage({sety,setx, setclicked, clicked}) {
+export default function GameImage({sety,setx, setclicked, clicked,settargetXPercent, settargetYPercent}) {
 
   const xPercentDoc = document.getElementById("xpercent");
   const yPercentDoc = document.getElementById("ypercent")
@@ -10,8 +10,7 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
   const [width, setwidth] = useState(0);
   const [height, setheight] = useState(0);
 
-  const [targetXPercent, settargetXPercent] = useState(0);
-  const [targetYPercent,settargetYPercent] = useState(0);
+
 
 
   useEffect(() => {
@@ -49,7 +48,6 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
       setx(imgX);
       sety(imgY);
     }
-
     setclicked(!clicked)
 
     xPercent = Math.round((imgX / width) * 100)
@@ -62,8 +60,6 @@ export default function GameImage({sety,setx, setclicked, clicked}) {
 
   return(
     <div ref = {imageRef}>
-      <p id="xpercent">X: {targetXPercent}</p>
-      <p id="ypercent">Y: {targetYPercent}</p>
       <img class="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} />
     </div>
   )
