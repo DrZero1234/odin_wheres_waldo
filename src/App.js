@@ -33,6 +33,7 @@ the user type their custom name, this name will be user on the scoreboard.
 
 - Randomizing the target character OR multiple levels.
 - Adding Redux for State management
+- Add Alert with animation
 
 */
 
