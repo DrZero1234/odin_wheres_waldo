@@ -2,7 +2,7 @@ import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { firestore } from "./utils/firebase";
 import HighscoreTable from "./HighscoreTable";
 
-export default function HighscoreModal({time,restartGame,setusername,username}) {
+export default function HighscoreModal({time,restartGame,setusername,username,setisSubmitted}) {
 
   const handleChange = (e) => {
     setusername(e.target.value);
@@ -14,10 +14,7 @@ export default function HighscoreModal({time,restartGame,setusername,username}) 
         username: username,
         score: time
     })
-
-    return (
-        <HighscoreTable />
-    )
+    setisSubmitted(true);
   }
 
   const timeString = new Date(time * 1000).toISOString().slice(14,19);

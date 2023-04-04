@@ -22,6 +22,7 @@ function WheresWaldo({x,y,setx,sety}) {
   const [targetXPercent, settargetXPercent] = useState(0);
   const [targetYPercent,settargetYPercent] = useState(0);
   const [time,setTime] = useState(0)
+  const [isSubmitted, setisSubmitted] = useState(false)
   const [username,setusername] = useState("");
 
   /*
@@ -61,6 +62,7 @@ function WheresWaldo({x,y,setx,sety}) {
       settargetXPercent(0);
       settargetYPercent(0);
       setusername("")
+      setisSubmitted(false);
     }
 
     function isFound(charXCoord,charYCoord,targetXPercent,targetYPercent) {
@@ -124,7 +126,8 @@ function WheresWaldo({x,y,setx,sety}) {
         <div className="relative">
           <GameImage setx={setx} sety = {sety} setclicked = {setclicked} clicked = {clicked} settargetXPercent = {settargetXPercent} settargetYPercent = {settargetYPercent}/>
           {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters} setclicked = {setclicked} clicked = {clicked} targetXPercent = {targetXPercent} targetYPercent = {targetYPercent} isCharFound = {isCharFound}/>}
-          {isGameOver && <HighscoreModal time = {time} restartGame = {restartGame} setusername = {setusername} username = {username}/>}
+          {isGameOver && <HighscoreModal time = {time} restartGame = {restartGame} setusername = {setusername} username = {username} setisSubmitted = {setisSubmitted}/>}
+          {isSubmitted && <HighscoreTable restartGame={restartGame}/>}
           </div>
         </div>
       </div>
