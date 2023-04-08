@@ -5,12 +5,13 @@ import Sans from "../img/sans.png"
 import Characters from "./Characters";
 import GameImage from "./GameImage";
 import TargetBox from "./TargetBox"
+import { findAllScores } from "./utils/scores";
 
 import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable"
 import { useEffect, useState } from "react";
 import { firestore } from "./utils/firebase";
-import { query, collection, addDoc, getDocs,getDoc,where, QuerySnapshot } from "firebase/firestore";
+import { query, collection, addDoc, getDocs,getDoc,where, QuerySnapshot, orderBy, limit } from "firebase/firestore";
 
 
 
@@ -24,14 +25,15 @@ function WheresWaldo({x,y,setx,sety}) {
   const [time,setTime] = useState(0)
   const [isSubmitted, setisSubmitted] = useState(false)
   const [username,setusername] = useState("");
+  const [loading,setloading] = useState(false);
+  const [scores,setscores] = useState([])
 
   /*
   const getCharacterData = async() => {
     let charData
-
     const q = query(collection(firestore,"characters"), where("name", "==" ,"Hornet"));
     const querySnapshot = await getDocs(q);
-    if (querySnapshot.docs.length > 0) {
+    if (querySnapshot.docs.length > 0) {
       charData = querySnapshot.docs[0].data()
       console.log(`Name: ${charData.name}`)
       console.log(`X: ${charData.coordinates[0]}`)
@@ -41,18 +43,37 @@ function WheresWaldo({x,y,setx,sety}) {
   */
 
   useEffect(() => {
+
+    // The counting of the timer
     let intervalId;
     if (!isGameOver) {
       intervalId = setInterval(() => setTime(time + 1), 1000);
     }
     return () => clearInterval(intervalId)
   }, [isGameOver, time])
+
+    const fetchData = async () => {
+    setloading(true);
+
+    const res = await findAllScores();
+    console.log(res)
+
+    setscores(res)
+    setloading(false);
+  }
+
+  useEffect(() => {
+    fetchData()
+    console.log(scores)
+  }, [])
+
+
     
     function isAllFound() {
       return characters.every((character => character.found === true));
     }
 
-    const restartGame = (e) => {
+    function restartGame(e)  {
       e.preventDefault()
       setCharacters([{name: "Lisa", img_src: Lisa, found: true},{name: "Hornet", img_src: Hornet, found: true}, {name: "Sans", img_src: Sans, found: false}]);
       setclicked(false);
@@ -108,10 +129,6 @@ function WheresWaldo({x,y,setx,sety}) {
           console.log(`Error: ${e}`)
         }
     }
-  
-
-  
-
   return(
     <div className="flex flex-col">
       <div className="basis-1/4">
@@ -126,8 +143,9 @@ function WheresWaldo({x,y,setx,sety}) {
         <div className="relative">
           <GameImage setx={setx} sety = {sety} setclicked = {setclicked} clicked = {clicked} settargetXPercent = {settargetXPercent} settargetYPercent = {settargetYPercent}/>
           {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters} setclicked = {setclicked} clicked = {clicked} targetXPercent = {targetXPercent} targetYPercent = {targetYPercent} isCharFound = {isCharFound}/>}
-          {isGameOver && <HighscoreModal time = {time} restartGame = {restartGame} setusername = {setusername} username = {username} setisSubmitted = {setisSubmitted}/>}
-          {isSubmitted && <HighscoreTable restartGame={restartGame}/>}
+          {isGameOver && <HighscoreModal time = {time} restartGame = {restartGame} setusername = {setusername} username = {username} setisSubmitted = {setisSubmitted} setisGameOver = {setisGameOver}/>}
+          {/* {isSubmitted && <HighscoreTable restartGame={restartGame}/>} */}
+          {isSubmitted && <HighscoreTable scores = {scores} loading={loading} restartGame = {restartGame}/>} 
           </div>
         </div>
       </div>

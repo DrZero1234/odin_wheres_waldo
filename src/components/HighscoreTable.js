@@ -1,4 +1,29 @@
-export default function HighscoreTable ({restartGame})  {
+
+import { collection,query,orderBy,getDocs, limit } from "firebase/firestore"
+import { firestore } from "./utils/firebase"
+import { useState, useEffect } from "react";
+import { findAllScores } from "./utils/scores.js";
+
+function  HighscoreTable ({scores,loading,restartGame})  {
+
+  console.log("render")
+  const scores_html = scores.map((score) => {
+                <>
+                <tr class="border-b dark:border-neutral-500">
+
+                
+                  
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">score.username</td>
+                  <td>score.score</td>
+
+                {scores.length === 0 && <p>empty</p>}
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
+                  <td class="whitespace-nowrap px-6 py-4">name</td>
+                  <td class="whitespace-nowrap px-6 py-4">00:00:05</td>
+                </tr>
+                </>
+                })
+
   return(
     <div className="h-screen flex justify-center items-center fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" id="highscore-modal">
       <div className="relative w-full h-full max-w-md md:h-auto">
@@ -21,21 +46,7 @@ export default function HighscoreTable ({restartGame})  {
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b dark:border-neutral-500">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-              <td class="whitespace-nowrap px-6 py-4">Mark</td>
-              <td class="whitespace-nowrap px-6 py-4">00:00:05</td>
-            </tr>
-            <tr class="border-b dark:border-neutral-500">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">2</td>
-              <td class="whitespace-nowrap px-6 py-4">Jacob</td>
-              <td class="whitespace-nowrap px-6 py-4">00:00:12</td>
-            </tr>
-            <tr class="border-b dark:border-neutral-500">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
-              <td class="whitespace-nowrap px-6 py-4">Larry</td>
-              <td class="whitespace-nowrap px-6 py-4">00:00:16</td>
-            </tr>
+            {scores_html}
           </tbody>
         </table>
       </div>
@@ -47,3 +58,5 @@ export default function HighscoreTable ({restartGame})  {
     </div>
   )
 }
+
+export default HighscoreTable

@@ -2,7 +2,7 @@ import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { firestore } from "./utils/firebase";
 import HighscoreTable from "./HighscoreTable";
 
-export default function HighscoreModal({time,restartGame,setusername,username,setisSubmitted}) {
+export default function HighscoreModal({time,restartGame,setusername,username,setisSubmitted,setisGameOver}) {
 
   const handleChange = (e) => {
     setusername(e.target.value);
@@ -14,6 +14,7 @@ export default function HighscoreModal({time,restartGame,setusername,username,se
         username: username,
         score: time
     })
+    setisGameOver(false)
     setisSubmitted(true);
   }
 
