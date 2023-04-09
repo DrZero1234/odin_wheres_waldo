@@ -15,12 +15,24 @@ import Lisa from "../img/lisa.webp"
 import Hornet from "../img/hornet.jpeg"
 import Sans from "../img/sans.png"
 import Limbo from "../img/limbo.png"
-
+import Slugcat from "../img/slugcat.png"
+import Shovel_knight from "../img/shovel_knight.png"
+import Omega_flowey from "../img/omega_flowey.png"
+import Super_meat_boy from "../img/super_meat_boy.png"
 
 
 
 function WheresWaldo({x,y,setx,sety}) {
-  const [characters, setCharacters] = useState([{name: "Lisa", img_src: Lisa, found: false},{name: "Hornet", img_src: Hornet, found: false}, {name: "Sans", img_src: Sans, found: false}, {name: "Limbo", img_src: Limbo, found: false}])
+  const CHARACTER_POOL = [{name: "Lisa", img_src: Lisa, found: false},
+  {name: "Hornet", img_src: Hornet, found: false},
+  {name: "Sans", img_src: Sans, found: false},
+  {name: "Limbo", img_src: Limbo, found: false},
+  {name: "Slugcat", img_src: Slugcat, found: false},
+  {name: "Shovel Knight", img_src: Shovel_knight, found: false},
+  {name: "Omega Flowey", img_src: Omega_flowey, found: false},
+  {name: "Meatboy", img_src: Super_meat_boy, found: false},]
+
+  const [characters, setCharacters] = useState([])
   const [clicked, setclicked] = useState(false);
   const [isStarted, setisStarted] = useState(false)
   const [isGameOver, setisGameOver] = useState(false);
@@ -29,6 +41,18 @@ function WheresWaldo({x,y,setx,sety}) {
   const [time,setTime] = useState(0);
   const [isSubmitted, setisSubmitted] = useState(false);
   const [username,setusername] = useState("");
+
+  const randomize_chars = () => {
+    const random_arr = [];
+    while (random_arr.length < 3) {
+      let random_item = CHARACTER_POOL[Math.floor(Math.random() * CHARACTER_POOL.length)]
+      if (!random_arr.some(e => e.name === random_item.name)) {
+        random_arr.push(random_item)
+      }
+    }
+    setCharacters(random_arr)
+  }
+
 
 
   /*
@@ -46,6 +70,12 @@ function WheresWaldo({x,y,setx,sety}) {
   */
 
   useEffect(() => {
+    if (isStarted) {
+      randomize_chars()
+    }
+  }, [isStarted])
+
+  useEffect(() => {
 
     // The counting of the timer
     let intervalId;
@@ -59,7 +89,7 @@ function WheresWaldo({x,y,setx,sety}) {
 
     function restartGame(e)  {
       e.preventDefault()
-      setCharacters([{name: "Lisa", img_src: Lisa, found: false},{name: "Hornet", img_src: Hornet, found: false}, {name: "Sans", img_src: Sans, found: false},  {name: "Limbo", img_src: Limbo, found: false}]);
+      randomize_chars();
       setclicked(false);
       setTime(0);
       setisGameOver(false);
@@ -89,7 +119,7 @@ function WheresWaldo({x,y,setx,sety}) {
           {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters} setCharacters = {setCharacters} setclicked = {setclicked} targetXPercent = {targetXPercent} targetYPercent = {targetYPercent} setisGameOver={setisGameOver}/>}
           {isGameOver && <HighscoreModal time = {time} restartGame = {restartGame} setusername = {setusername} username = {username} setisSubmitted = {setisSubmitted} setisGameOver = {setisGameOver}/>}
           {/* {isSubmitted && <HighscoreTable restartGame={restartGame}/>} */}
-          {isSubmitted && <HighscoreTable restartGame = {restartGame}/>} 
+          {{ /* isSubmitted */}  && <HighscoreTable restartGame = {restartGame}/>} 
           </div>
         </div>
         </>}
