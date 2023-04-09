@@ -30,8 +30,6 @@ export default function HighscoreModal({time,restartGame,setusername,username,se
             <div className="px-6 py-6 lg:px-8">
                 <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">Your Time is </h3>
                 <h2 className="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">{timeString} </h2>
-                <h2 className="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">time state: {time} </h2>
-                <h2 className="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">username: {username} </h2>
                 <form className="space-y-6" action="#">
                     <div>
                         <label htmlFor="highscore-username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>

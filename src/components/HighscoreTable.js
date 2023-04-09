@@ -1,28 +1,34 @@
 
-import { collection,query,orderBy,getDocs, limit } from "firebase/firestore"
-import { firestore } from "./utils/firebase"
 import { useState, useEffect } from "react";
 import { findAllScores } from "./utils/scores.js";
 
-function  HighscoreTable ({scores,loading,restartGame})  {
+function  HighscoreTable ({restartGame})  {
 
-  console.log("render")
-  const scores_html = scores.map((score) => {
+  const [loading,setloading] = useState(false);
+  const [scores,setscores] = useState([])
+  const scores_html = scores.map((score,index) => (
                 <>
-                <tr class="border-b dark:border-neutral-500">
-
-                
-                  
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">score.username</td>
-                  <td>score.score</td>
-
+                <tr className="border-b dark:border-neutral-500" key = {score.id}>
                 {scores.length === 0 && <p>empty</p>}
-                  <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                  <td class="whitespace-nowrap px-6 py-4">name</td>
-                  <td class="whitespace-nowrap px-6 py-4">00:00:05</td>
+                  <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{score.username}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{new Date(score.score * 1000).toISOString().slice(14,19)}</td>
                 </tr>
                 </>
-                })
+  ))
+
+  const fetchData = async () => {
+    setloading(true);
+
+    const res = await findAllScores();
+
+    setscores(res)
+    setloading(false);
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return(
     <div className="h-screen flex justify-center items-center fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" id="highscore-modal">
@@ -46,6 +52,7 @@ function  HighscoreTable ({scores,loading,restartGame})  {
             </tr>
           </thead>
           <tbody>
+            {loading && <h1>Loading</h1>}
             {scores_html}
           </tbody>
         </table>
