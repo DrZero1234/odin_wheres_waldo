@@ -1,7 +1,5 @@
 import { useState } from "react";
 import WheresWaldo from "./components/Game"
-import { useRef } from "react";
-import handleSubmit from "./components/handleSubmit";
 
 // The Project
 

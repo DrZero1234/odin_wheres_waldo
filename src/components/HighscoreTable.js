@@ -67,3 +67,4 @@ function  HighscoreTable ({restartGame})  {
 }
 
 export default HighscoreTable
+
