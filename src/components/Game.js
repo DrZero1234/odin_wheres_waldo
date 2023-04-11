@@ -8,6 +8,7 @@ import TargetBox from "./TargetBox"
 import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable";
 import StartScreen from "./StartScreen";
+import ErrorAlert from "./ErrorAlert";
 
 import { useEffect, useState } from "react";
 
@@ -34,13 +35,14 @@ function WheresWaldo({x,y,setx,sety}) {
 
   const [characters, setCharacters] = useState([])
   const [clicked, setclicked] = useState(false);
-  const [isStarted, setisStarted] = useState(false)
+  const [isStarted, setisStarted] = useState(true)
   const [isGameOver, setisGameOver] = useState(false);
   const [targetXPercent, settargetXPercent] = useState(0);
   const [targetYPercent,settargetYPercent] = useState(0);
   const [time,setTime] = useState(0);
   const [isSubmitted, setisSubmitted] = useState(false);
   const [username,setusername] = useState("");
+  const [showError, setshowError] = useState(false);
 
   const randomize_chars = () => {
     const random_arr = [];
@@ -87,6 +89,7 @@ function WheresWaldo({x,y,setx,sety}) {
 
 
 
+
     function restartGame(e)  {
       e.preventDefault()
       randomize_chars();
@@ -105,6 +108,7 @@ function WheresWaldo({x,y,setx,sety}) {
       {!isStarted && <StartScreen setisStarted = {setisStarted} />}
       {isStarted && 
       <>
+      {showError && <ErrorAlert />}
       <div className="basis-1/4">
         <Navbar time = {time} isGameOver = {isGameOver}/>
       </div>
@@ -116,12 +120,13 @@ function WheresWaldo({x,y,setx,sety}) {
       <div className="basis-full">
         <div className="relative">
           <GameImage setx={setx} sety = {sety} setclicked = {setclicked} clicked = {clicked} settargetXPercent = {settargetXPercent} settargetYPercent = {settargetYPercent}/>
-          {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters} setCharacters = {setCharacters} setclicked = {setclicked} targetXPercent = {targetXPercent} targetYPercent = {targetYPercent} setisGameOver={setisGameOver}/>}
+          {clicked === true && <TargetBox x = {x} y = {y} setx = {setx} sety = {sety} characters = {characters} setCharacters = {setCharacters} setclicked = {setclicked} targetXPercent = {targetXPercent} targetYPercent = {targetYPercent} setisGameOver={setisGameOver} setshowError = {setshowError}/>}
           {isGameOver && <HighscoreModal time = {time} restartGame = {restartGame} setusername = {setusername} username = {username} setisSubmitted = {setisSubmitted} setisGameOver = {setisGameOver}/>}
           {/* {isSubmitted && <HighscoreTable restartGame={restartGame}/>} */}
-          {{ /* isSubmitted */}  && <HighscoreTable restartGame = {restartGame}/>} 
+          {isSubmitted   && <HighscoreTable restartGame = {restartGame}/>} 
           </div>
         </div>
+
         </>}
       </div>
   )

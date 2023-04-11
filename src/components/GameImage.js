@@ -1,5 +1,6 @@
 import Example from "../img/example.png"
 import { useEffect, useState, useLayoutEffect, useRef } from "react";
+import ErrorAlert from "./ErrorAlert";
 
 export default function GameImage({sety,setx, setclicked, clicked,settargetXPercent, settargetYPercent}) {
 
@@ -60,6 +61,7 @@ export default function GameImage({sety,setx, setclicked, clicked,settargetXPerc
 
   return(
     <div ref = {imageRef}>
+
       <img class="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} />
     </div>
   )

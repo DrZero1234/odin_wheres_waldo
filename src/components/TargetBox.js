@@ -1,10 +1,17 @@
 
+
 import CharacterList from "./CharacterList";
 import { query,collection,where,getDocs } from "firebase/firestore";
 import { firestore } from "./utils/firebase";
+import { useCallback, useEffect, useState } from "react";
+import { useRef } from "react";
+import useEffectOnUpdate from "../hooks/useEffectOnUpdate";
 
+export default function TargetBox({x,y,setx,sety,characters,setCharacters,clicked,targetXPercent,targetYPercent,setisGameOver,setshowError}) {
 
-export default function TargetBox({x,y,setx,sety,characters,setCharacters,clicked,targetXPercent,targetYPercent,setisGameOver}) {
+  useEffectOnUpdate(useCallback(() => {
+    console.log(characters)
+  }, [characters]))
 
   function isFound(charXCoord,charYCoord,targetXPercent,targetYPercent) {
       const minX = charXCoord - 3;
@@ -40,7 +47,7 @@ export default function TargetBox({x,y,setx,sety,characters,setCharacters,clicke
             //set the character´s dictionary to found and replace the character´s dic inside state
             char_dic.found = true;
             characters_copy[new_dic_index] = char_dic;
-            setCharacters(characters_copy)
+            setCharacters(characters_copy);
             if (isAllFound()) {
               setisGameOver(true)
             }
@@ -71,7 +78,6 @@ export default function TargetBox({x,y,setx,sety,characters,setCharacters,clicke
   <div className="z-10 flex flex-col gap-2  absolute" style  ={{left:x -20 + "px",top: y -20 + "px" }} onClick = {handleMouseClicked}>
     <div className={`h-40px w-52px outline outline-2 outline-red-600`} />
     <CharacterList characters = {characters} targetXPercent = {targetXPercent} targetYPercent = {targetYPercent} isCharFound = {isCharFound} />
-    
   </div>
   )
 }
