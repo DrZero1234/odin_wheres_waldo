@@ -7,7 +7,7 @@ import { firestore } from './components/utils/firebase';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <App />
   </React.StrictMode>
 );
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import WheresWaldo from "./components/Game"
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // The Project
 

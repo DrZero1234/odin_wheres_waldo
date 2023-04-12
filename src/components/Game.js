@@ -11,6 +11,9 @@ import StartScreen from "./StartScreen";
 import ErrorAlert from "./ErrorAlert";
 
 import { useEffect, useState } from "react";
+import { ToastContainer,toast } from "react-toastify";
+import { Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Lisa from "../img/lisa.webp"
 import Hornet from "../img/hornet.jpeg"
@@ -90,6 +93,7 @@ function WheresWaldo({x,y,setx,sety}) {
 
 
 
+
     function restartGame(e)  {
       e.preventDefault()
       randomize_chars();
@@ -105,11 +109,13 @@ function WheresWaldo({x,y,setx,sety}) {
     
   return(
     <div className="flex flex-col">
+
       {!isStarted && <StartScreen setisStarted = {setisStarted} />}
       {isStarted && 
       <>
-      {showError && <ErrorAlert />}
+
       <div className="basis-1/4">
+              <ToastContainer position="top-center" autoClose={3000} transition={Slide} hideProgressBar={true}/>
         <Navbar time = {time} isGameOver = {isGameOver}/>
       </div>
 
