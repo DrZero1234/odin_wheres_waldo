@@ -43,7 +43,7 @@ function WheresWaldo({x,y,setx,sety}) {
   const [targetXPercent, settargetXPercent] = useState(0);
   const [targetYPercent,settargetYPercent] = useState(0);
   const [time,setTime] = useState(0);
-  const [isSubmitted, setisSubmitted] = useState(true);
+  const [isSubmitted, setisSubmitted] = useState(false);
   const [username,setusername] = useState("");
   const [showError, setshowError] = useState(false);
 
