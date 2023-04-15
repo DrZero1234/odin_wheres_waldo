@@ -38,12 +38,12 @@ function WheresWaldo({x,y,setx,sety}) {
 
   const [characters, setCharacters] = useState([])
   const [clicked, setclicked] = useState(false);
-  const [isStarted, setisStarted] = useState(true)
+  const [isStarted, setisStarted] = useState(false)
   const [isGameOver, setisGameOver] = useState(false);
   const [targetXPercent, settargetXPercent] = useState(0);
   const [targetYPercent,settargetYPercent] = useState(0);
   const [time,setTime] = useState(0);
-  const [isSubmitted, setisSubmitted] = useState(false);
+  const [isSubmitted, setisSubmitted] = useState(true);
   const [username,setusername] = useState("");
   const [showError, setshowError] = useState(false);
 
@@ -57,22 +57,6 @@ function WheresWaldo({x,y,setx,sety}) {
     }
     setCharacters(random_arr)
   }
-
-
-
-  /*
-  const getCharacterData = async() => {
-    let charData
-    const q = query(collection(firestore,"characters"), where("name", "==" ,"Hornet"));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.docs.length > 0) {
-      charData = querySnapshot.docs[0].data()
-      console.log(`Name: ${charData.name}`)
-      console.log(`X: ${charData.coordinates[0]}`)
-      console.log(`Y: ${charData.coordinates[1]}`)
-    }
-  }
-  */
 
   useEffect(() => {
     if (isStarted) {
