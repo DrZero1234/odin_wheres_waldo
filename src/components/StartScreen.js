@@ -9,7 +9,7 @@ export default function StartScreen({setisStarted}) {
             <div className="px-6 py-6 lg:px-8">
                 <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">Wheres Waldo </h3>
                 {/* Flowbite accordion */}
-                <Accordion alwaysOpen={true}>
+                <Accordion alwaysOpen = {true}>
                 <Accordion.Panel>
                     <Accordion.Title>
                     What is Wheres Waldo?

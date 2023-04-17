@@ -2,14 +2,19 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
   	match /highscore/{documentID} {
-    	allow get;
-      allow write: if request.resource.data.username is string
-      && request.resource.data.score is int
-      allow update,delete: if false
+    	allow read;
+      allow create: if (request.resource.data.username is string
+      && request.resource.data.score is int)
+      //allow delete: if false
     }
   	match /characters/{documentID} {
     	allow read;
       allow write: if false;
+    }
+    
+    match /unique_usernames/{usernameID} {
+    	allow create;
+    	allow delete,update: if false;
     }
 	}
 }

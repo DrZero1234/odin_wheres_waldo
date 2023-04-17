@@ -8,11 +8,14 @@ export default function HighscoreModal({time,restartGame,setusername,username,se
     setusername(e.target.value);
   }
 
-  const handleSubmit = async (e,username,time) =>  {
+  const handleSubmit = async (e,username,score) =>  {
     e.preventDefault();
     await addDoc(collection(firestore,"highscore"), {
         username: username,
-        score: time
+        score: Number(score)
+    })
+    await addDoc(collection(firestore,"unique_usernames"), {
+      username: username
     })
     setisGameOver(false)
     setisSubmitted(true);
