@@ -4,17 +4,22 @@ service cloud.firestore {
   	match /highscore/{documentID} {
     	allow read;
       allow create: if (request.resource.data.username is string
-      && request.resource.data.score is int)
-      //allow delete: if false
+      && request.resource.data.score is int &&
+      !exists(/databases/$(database)/documents/users/$(request.resource.data.username.lower())))
+      allow delete: if false
     }
+    
+    
   	match /characters/{documentID} {
     	allow read;
       allow write: if false;
     }
     
-    match /unique_usernames/{usernameID} {
-    	allow create;
+    match /unique_usernames/{username} {
+    	allow read,create;
     	allow delete,update: if false;
     }
+    
+    
 	}
 }

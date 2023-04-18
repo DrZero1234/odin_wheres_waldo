@@ -1,22 +1,37 @@
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, getDoc, writeBatch } from "firebase/firestore";
 import { firestore } from "./utils/firebase";
 import HighscoreTable from "./HighscoreTable";
+import { debounce } from "debounce";
 
 export default function HighscoreModal({time,restartGame,setusername,username,setisSubmitted,setisGameOver}) {
 
-  const handleChange = (e) => {
-    setusername(e.target.value);
-  }
+  let usernameAvailable = false
 
+  const handleChange = debounce (async (e) => {
+    setusername(e.target.value);
+    if (username.length >= 3 && username.length <= 20) {
+      const ref = doc(firestore,"unique_usernames", username)
+      const docSnap = await getDoc(ref);
+      console.log(ref)
+      const exists = docSnap.exists();
+      usernameAvailable = !exists;
+    }
+  }, 300)
+
+
+  // Adds the score document and one separate document for the username to prevent using the same username
   const handleSubmit = async (e,username,score) =>  {
     e.preventDefault();
-    await addDoc(collection(firestore,"highscore"), {
-        username: username,
-        score: Number(score)
-    })
-    await addDoc(collection(firestore,"unique_usernames"), {
-      username: username
-    })
+    // Creating document refs
+    const highscore_ref = doc(collection(firestore,"highscore"));
+    // Custom ID: the submitted username in lowercase
+    const username_ref = doc(firestore,"unique_usernames",username.toLowerCase())
+
+    const batch = writeBatch(firestore);
+    batch.set(highscore_ref, {username,score:time}) 
+    batch.set(username_ref, {uid: highscore_ref.id});
+
+    await batch.commit();
     setisGameOver(false)
     setisSubmitted(true);
   }
