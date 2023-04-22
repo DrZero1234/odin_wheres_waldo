@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import {toast} from "react-toastify"
 import { firestore } from "./utils/firebase";
 import { query,collection,where,getDocs } from "firebase/firestore";

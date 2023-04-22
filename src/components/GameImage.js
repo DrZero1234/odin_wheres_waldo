@@ -1,11 +1,6 @@
 import Example from "../img/example.png"
-import { useEffect, useState, useLayoutEffect, useRef } from "react";
-import ErrorAlert from "./ErrorAlert";
-
+import { useEffect, useState, useRef } from "react";
 export default function GameImage({sety,setx, setclicked, clicked,settargetXPercent, settargetYPercent}) {
-
-  const xPercentDoc = document.getElementById("xpercent");
-  const yPercentDoc = document.getElementById("ypercent")
 
   const imageRef = useRef();
   const [width, setwidth] = useState(0);
@@ -20,8 +15,6 @@ export default function GameImage({sety,setx, setclicked, clicked,settargetXPerc
       setwidth(imageRef.current.offsetWidth);
     }
   })
-
-
 
 
 
@@ -61,8 +54,7 @@ export default function GameImage({sety,setx, setclicked, clicked,settargetXPerc
 
   return(
     <div ref = {imageRef}>
-
-      <img class="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} />
+      <img className="z-0 object-cover h-100 w-100" src={Example} onClick = {handleMouseClicked} />
     </div>
   )
 }

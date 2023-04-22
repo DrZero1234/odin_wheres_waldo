@@ -1,6 +1,5 @@
-import { addDoc, collection, doc, setDoc, getDoc, writeBatch } from "firebase/firestore";
+import {  collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { firestore } from "./utils/firebase";
-import HighscoreTable from "./HighscoreTable";
 import { debounce } from "debounce";
 import { useState } from "react";
 
@@ -16,13 +15,10 @@ export default function HighscoreModal({time,restartGame,setusername,username,se
       const ref = doc(firestore,"unique_usernames", textUsername)
       const docSnap = await getDoc(ref);
       const exists = docSnap.exists();
-      console.log(exists)
-      console.log(username)
       setusernameAvailable(!exists)
       if (exists) {
         seterrorText(`${textUsername} is already been taken.`)
       }
-      console.log(errorText)
     } else if (textUsername.length < 4 || textUsername.length > 20){
       setusernameAvailable(false)
       seterrorText("The username must be between 4 and 20 characters long.")

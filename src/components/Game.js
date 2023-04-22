@@ -8,11 +8,10 @@ import TargetBox from "./TargetBox"
 import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable";
 import StartScreen from "./StartScreen";
-import ErrorAlert from "./ErrorAlert";
 import Information from "./Information";
 
 import { useEffect, useState } from "react";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 import { Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -40,7 +39,7 @@ function WheresWaldo({x,y,setx,sety}) {
   const [characters, setCharacters] = useState([])
   const [clicked, setclicked] = useState(false);
   const [isStarted, setisStarted] = useState(false)
-  const [isGameOver, setisGameOver] = useState(true);
+  const [isGameOver, setisGameOver] = useState(false);
   const [targetXPercent, settargetXPercent] = useState(0);
   const [targetYPercent,settargetYPercent] = useState(0);
   const [time,setTime] = useState(0);
