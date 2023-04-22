@@ -1,6 +1,8 @@
 import {initializeApp} from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCOrM2cMg1j9Ps3-JusJABL7nnBA88ZGEU",
   authDomain: "wheres-waldo-25db2.firebaseapp.com",
