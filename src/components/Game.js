@@ -89,6 +89,7 @@ function WheresWaldo({x,y,setx,sety}) {
       settargetYPercent(0);
       setusername("")
       setisSubmitted(false);
+      setisStarted(false)
     }
 
     
