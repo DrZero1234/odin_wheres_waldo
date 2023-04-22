@@ -40,7 +40,7 @@ function WheresWaldo({x,y,setx,sety}) {
   const [characters, setCharacters] = useState([])
   const [clicked, setclicked] = useState(false);
   const [isStarted, setisStarted] = useState(false)
-  const [isGameOver, setisGameOver] = useState(false);
+  const [isGameOver, setisGameOver] = useState(true);
   const [targetXPercent, settargetXPercent] = useState(0);
   const [targetYPercent,settargetYPercent] = useState(0);
   const [time,setTime] = useState(0);

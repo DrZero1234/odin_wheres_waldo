@@ -7,21 +7,27 @@ import { useState } from "react";
 export default function HighscoreModal({time,restartGame,setusername,username,setisSubmitted,setisGameOver}) {
 
   const [usernameAvailable,setusernameAvailable] = useState(false);
+  const [errorText,seterrorText] = useState("");
 
   const handleChange = debounce (async (e) => {
     const textUsername = e.target.value;
     setusername((textUsername));
-    if (username.length >= 3 || username.length <= 20) {
-      const ref = doc(firestore,"unique_usernames", username)
+    if (username.length > 3 && username.length < 20) {
+      const ref = doc(firestore,"unique_usernames", textUsername)
       const docSnap = await getDoc(ref);
-      console.log(ref)
       const exists = docSnap.exists();
       console.log(exists)
+      console.log(username)
       setusernameAvailable(!exists)
-    } else {
+      if (exists) {
+        seterrorText(`${textUsername} is already been taken.`)
+      }
+      console.log(errorText)
+    } else if (textUsername.length < 4 || textUsername.length > 20){
       setusernameAvailable(false)
+      seterrorText("The username must be between 4 and 20 characters long.")
     }
-  }, 300)
+  }, 200)
 
 
   // Adds the score document and one separate document for the username to prevent using the same username
@@ -56,9 +62,12 @@ export default function HighscoreModal({time,restartGame,setusername,username,se
                 <form className="space-y-6" action="#">
                     <div>
                         <label htmlFor="highscore-username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                        <input type="text" name="highscore_username" id="highscore-username" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="username" required onChange={handleChange}/>
+                        <input type="text" name="highscore_username" id="highscore-username" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="username" required onChange={(e) => handleChange(e)} autoFocus = {true}/>
+                        {(usernameAvailable && <p className="text-sm text-green-600">{username} is available</p>)}
+                        {(!usernameAvailable && <p className="text-sm text-red-600">{errorText}</p>)}
                     </div>
-                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50 disabled:pointer-events-none" disabled={usernameAvailable}  onClick={(e) => handleSubmit(e,username,time)}>Submit</button>
+                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50 disabled:pointer-events-none" disabled={!usernameAvailable}  onClick={(e) => handleSubmit(e,username,time)}>Submit</button>
+
                 </form>
             </div>
         </div>
