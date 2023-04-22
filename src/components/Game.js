@@ -9,6 +9,7 @@ import HighscoreModal from "./HighscoreModal";
 import HighscoreTable from "./HighscoreTable";
 import StartScreen from "./StartScreen";
 import ErrorAlert from "./ErrorAlert";
+import Information from "./Information";
 
 import { useEffect, useState } from "react";
 import { ToastContainer,toast } from "react-toastify";
@@ -46,6 +47,7 @@ function WheresWaldo({x,y,setx,sety}) {
   const [isSubmitted, setisSubmitted] = useState(false);
   const [username,setusername] = useState("");
   const [showError, setshowError] = useState(false);
+  const[showInformation,setshowInformation] = useState(false);
 
   const randomize_chars = () => {
     const random_arr = [];
@@ -68,11 +70,11 @@ function WheresWaldo({x,y,setx,sety}) {
 
     // The counting of the timer
     let intervalId;
-    if (!isGameOver && isStarted) {
+    if (!isGameOver && isStarted && !showInformation) {
       intervalId = setInterval(() => setTime(time + 1), 1000);
     }
     return () => clearInterval(intervalId)
-  }, [isGameOver,isStarted,time])
+  }, [isGameOver,isStarted,showInformation,time])
 
 
 
@@ -95,12 +97,13 @@ function WheresWaldo({x,y,setx,sety}) {
     <div className="flex flex-col">
 
       {!isStarted && <StartScreen setisStarted = {setisStarted} />}
+      {(showInformation && isStarted) && <Information setshowInformation = {setshowInformation} showInformation={showInformation}/>}
       {isStarted && 
       <>
 
       <div className="basis-1/4">
               <ToastContainer position="top-center" autoClose={3000} transition={Slide} hideProgressBar={true}/>
-        <Navbar time = {time} isGameOver = {isGameOver}/>
+        <Navbar time = {time} isGameOver = {isGameOver} showInformation = {showInformation} setshowInformation = {setshowInformation}/>
       </div>
 
       <div className="basis-1/4">
